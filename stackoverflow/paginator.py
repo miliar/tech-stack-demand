@@ -1,35 +1,26 @@
 import requests
-from time import sleep
-from kafka import KafkaProducer
-from kafka.errors import NoBrokersAvailable
+import redis
 
 
 class Paginator:
     def __init__(self):
         self.page_nr = 1
         self.page = requests.get(self.url()).json()
-        self.producer = self.get_producer()
+        self.client = self.get_client()
 
     def url(self):
         raise NotImplementedError("Must override url()")
 
-    def get_producer(self):
-        while True:
-            try:
-                producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
-                                         value_serializer=lambda x: x.encode('utf-8'))
-                return producer
-            except NoBrokersAvailable:
-                print('No Broker, reconnecting..')
-                sleep(15)
-                continue
+    def get_client(self):
+        return redis.Redis(
+            host='redis',
+            port=6379,
+            password='password')
 
-    def send(self, topic):
+    def update(self):
         while True:
-            for item in self.items():
-                self.producer.send(topic, value=item)
-                print(f'send {item}')
-                sleep(2) # To be removed
+            for key, value in self.items():
+                self.set_item(key, value)
             if self.page['has_more']:
                 self.next_page()
             else:
@@ -37,6 +28,12 @@ class Paginator:
 
     def items(self):
         raise NotImplementedError("Must override item()")
+
+    def set_item(self, key, value):
+        if self.client.set(key, value):
+            print(f'SET {key}: {value}')
+        else:
+            print(f'ERROR SET {key}: {value}')  # Retry?
 
     def next_page(self):
         self.page_nr += 1

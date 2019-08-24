@@ -7,8 +7,8 @@ class Tags(Paginator):
 
     def items(self):
         for item in self.page['items']:
-            yield item['name']
+            yield (item['name'], item['name'])
 
 
 if __name__ == '__main__':
-    Tags().send('stackoverflow_tags')
+    Tags().update()

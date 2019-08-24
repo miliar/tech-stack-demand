@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  redis:
+    image: 'bitnami/redis:5.0'
+    environment:
+      - REDIS_PASSWORD=password
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./redis_data:/bitnami/redis/data
+  
+  producer_synonyms:
+    build: .
+    command: python -u synonyms.py
+    
+  producer_tags:
+    build: .
+    

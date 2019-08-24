@@ -7,8 +7,8 @@ class Synonyms(Paginator):
 
     def items(self):
         for item in self.page['items']:
-            yield f"to: {item['to_tag']} from: {item['from_tag']}"
+            yield (item['from_tag'], item['to_tag'])
 
 
 if __name__ == '__main__':
-    Synonyms().send('stackoverflow_synonyms')
+    Synonyms().update()
