@@ -1,10 +1,12 @@
-from helper import get_html
+from helper import get_html, get_consumer, get_producer
 
 
-class JobDescriptionScraper:
-    def __init__(self, url):
-        self.url = url
+def get_job_description(url):
+    return get_html(url).find('div', id="jobDescriptionText").get_text()
 
-    def get_job_description(self):
-        html = get_html(self.url)
-        return html.find('div', id="jobDescriptionText").get_text()
+
+if __name__ == '__main__':
+    consumer = get_consumer('job_urls')
+    producer = get_producer()
+    for url in consumer:
+        producer.send('job_descriptions', get_job_description(url.value))

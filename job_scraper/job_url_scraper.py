@@ -1,8 +1,8 @@
 import re
-from helper import get_html
+from helper import get_html, get_producer
 
 
-class UrlCollector:
+class JobUrlScraper:
     def __init__(self, query='software+developer'):
         self.query = query  # To do: search --> query url encoding?
         self.search_count = self._get_search_count()
@@ -30,3 +30,10 @@ class UrlCollector:
         html = get_html(url)
         for link in html.find_all('a', class_="jobtitle"):
             yield 'https://de.indeed.com' + link.get('href')
+
+
+if __name__ == '__main__':
+    producer = get_producer()
+    for url in JobUrlScraper().get_all_job_urls():
+        producer.send('job_urls', url)
+    producer.flush()
