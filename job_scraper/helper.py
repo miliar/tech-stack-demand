@@ -12,7 +12,9 @@ def get_producer():
     while True:
         try:
             producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
-                                     value_serializer=lambda x: x.encode('utf-8'))
+                                     value_serializer=lambda x: x.encode(
+                                         'utf-8'),
+                                     key_serializer=lambda x: x.encode('utf-8') if x else x)
             return producer
         except NoBrokersAvailable:
             print('No Broker, reconnecting..')
