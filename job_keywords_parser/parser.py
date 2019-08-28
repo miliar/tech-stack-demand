@@ -27,4 +27,3 @@ if __name__ == '__main__':
         producer.send('job_keywords',
                       value=job_keywords,
                       key=description.key)
-        print(job_keywords, flush=True)
