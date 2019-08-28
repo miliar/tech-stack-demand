@@ -13,7 +13,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "job_urls:2:1,job_descriptions:2:1,job_keywords:1:1"
+      KAFKA_CREATE_TOPICS: "job_urls:2:1,job_descriptions:2:1,job_keywords:2:1"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       #- ./kafka-logs:/kafka
@@ -61,6 +61,28 @@ services:
     depends_on:
       - kafka
       - keywords_api
+
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/password
+    volumes:
+      - ./neo4j_data_loader/neo4j_data:/data
+
+  neo4j_data_loader1:
+    build: ./neo4j_data_loader
+    depends_on:
+      - neo4j
+      - kafka
+
+  neo4j_data_loader2:
+    build: ./neo4j_data_loader
+    depends_on:
+      - neo4j
+      - kafka
 
   #keywords_update_synonyms:
   #  build: ./keywords_update
