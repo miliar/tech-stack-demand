@@ -36,8 +36,10 @@ class JobKeywordsParser:
                           'modul', 'list', 'iteration', 'logic', 'express',
                           'load', 'prepared-statement', 'conditional-statements', 'dependencies',
                           'max', 'layout', 'loops', 'text', 'size',
-                          'click', 'certificate', 'request', 'map', 'button', 'migration'
-                          ]
+                          'click', 'certificate', 'request', 'map', 'button', 'migration',
+                          'file', 'case', 'match', 'chef', 'format', 'upload',
+                          'character', 'post', 'expression', 'static', 'select',
+                          'count', 'plugins', 'repository', 'copy']
         return ' '.join([k for k in keywords.split() if k not in false_positive])
 
 
