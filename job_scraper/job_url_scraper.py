@@ -4,9 +4,10 @@ from time import sleep
 
 
 class JobUrlScraper:
-    def __init__(self, query='software+developer'):
+    def __init__(self, query='software+developer', throttle_seconds=10):
         self.query = query  # To do: search --> query url encoding?
         self.search_count = self._get_search_count()
+        self.throttle_seconds = throttle_seconds
 
     def _get_search_count(self):
         html = get_html(self._get_search_page_url())
@@ -31,7 +32,7 @@ class JobUrlScraper:
         html = get_html(url)
         for link in html.find_all('a', class_="jobtitle"):
             yield 'https://de.indeed.com' + link.get('href')
-            sleep(30) # To be removed
+            sleep(self.throttle_seconds)
 
 
 if __name__ == '__main__':
