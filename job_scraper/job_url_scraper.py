@@ -5,7 +5,7 @@ from time import sleep
 
 class JobUrlScraper:
     def __init__(self, query='software+developer', throttle_seconds=10):
-        self.query = query  # To do: search --> query url encoding?
+        self.query = query
         self.search_count = self._get_search_count()
         self.throttle_seconds = throttle_seconds
 

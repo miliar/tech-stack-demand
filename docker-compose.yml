@@ -1,4 +1,4 @@
-version: '2'
+version: '2.2'
 
 services:
   zookeeper:
@@ -18,15 +18,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       #- ./kafka-logs:/kafka
   
-  job_description_scraper1:
+  job_description_scraper:
     build: ./job_scraper
     depends_on:
       - kafka
-
-  job_description_scraper2:
-    build: ./job_scraper
-    depends_on:
-      - kafka
+    scale: 2
      
   job_url_scraper:
     build: ./job_scraper
@@ -50,17 +46,12 @@ services:
     depends_on:
       - redis
 
-  job_keywords_parser1:
+  job_keywords_parser:
     build: ./job_keywords_parser
     depends_on:
       - kafka
       - keywords_api
-  
-  job_keywords_parser2:
-    build: ./job_keywords_parser
-    depends_on:
-      - kafka
-      - keywords_api
+    scale: 2
 
   neo4j:
     image: neo4j:latest
@@ -72,14 +63,9 @@ services:
     volumes:
       - ./neo4j_data_loader/neo4j_data:/data
 
-  neo4j_data_loader1:
+  neo4j_data_loader:
     build: ./neo4j_data_loader
     depends_on:
       - neo4j
       - kafka
-
-  neo4j_data_loader2:
-    build: ./neo4j_data_loader
-    depends_on:
-      - neo4j
-      - kafka
+    scale: 2

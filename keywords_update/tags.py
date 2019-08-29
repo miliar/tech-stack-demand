@@ -39,7 +39,7 @@ class Tags(Paginator):
                                     json=json)
             print(response.status_code, list(zip(json.keys(),
                                                  json.values(),
-                                                 response.json())))  # To do: error handling
+                                                 response.json())))
 
 
 if __name__ == '__main__':

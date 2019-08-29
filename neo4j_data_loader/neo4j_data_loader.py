@@ -34,4 +34,4 @@ if __name__ == '__main__':
 
     for keywords in consumer:
         loader.insert_data(company=keywords.key, tags=keywords.value)
-        print(f'Insert Company: {keywords.key} Tags: {keywords.value}', flush=True)
+        print(f'Insert Company: {keywords.key} --> Tags: {keywords.value}', flush=True)
