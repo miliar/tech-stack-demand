@@ -83,15 +83,3 @@ services:
     depends_on:
       - neo4j
       - kafka
-
-  #keywords_update_synonyms:
-  #  build: ./keywords_update
-  #  command: python -u synonyms.py
-  #  depends_on:
-  #    - keywords_api
-    
-  #keywords_update_tags:
-  #  build: ./keywords_update
-  #  depends_on:
-  #    - keywords_api
-   
