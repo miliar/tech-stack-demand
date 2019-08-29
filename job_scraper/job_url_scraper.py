@@ -1,5 +1,6 @@
 import re
 from helper import get_html, get_producer
+from time import sleep
 
 
 class JobUrlScraper:
@@ -30,10 +31,12 @@ class JobUrlScraper:
         html = get_html(url)
         for link in html.find_all('a', class_="jobtitle"):
             yield 'https://de.indeed.com' + link.get('href')
+            sleep(30) # To be removed
 
 
 if __name__ == '__main__':
     producer = get_producer()
     for url in JobUrlScraper().get_all_job_urls():
         producer.send('job_urls', url)
+        print('SEND VALUE: ' + url, flush=True)
     producer.flush()

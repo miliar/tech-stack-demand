@@ -17,6 +17,10 @@ if __name__ == '__main__':
     producer = get_producer()
     for url in consumer:
         scraper = JobDescriptionScraper(url.value)
+        value = scraper.get_job_description()
+        key = scraper.get_job_company()
         producer.send('job_descriptions',
-                      value=scraper.get_job_description(),
-                      key=scraper.get_job_company())
+                      value=value,
+                      key=key)
+        print('SEND KEY: ' + key)
+        print('SEND VALUE: ' + value, flush=True)
