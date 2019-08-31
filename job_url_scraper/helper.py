@@ -4,35 +4,21 @@ from contextlib import closing
 from bs4 import BeautifulSoup
 from retry import retry
 from time import sleep
-from kafka import KafkaProducer, KafkaConsumer
+from kafka import KafkaProducer
 from kafka.errors import NoBrokersAvailable
+from config import KAFKA
 
 
 def get_producer():
     while True:
         try:
-            producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
+            producer = KafkaProducer(bootstrap_servers=[KAFKA],
                                      value_serializer=lambda x: x.encode(
                                          'utf-8'),
-                                     key_serializer=lambda x: x.encode('utf-8') if x else x)
+                                     key_serializer=lambda x: x.encode(
+                                         'utf-8') if x else x
+                                     )
             return producer
-        except NoBrokersAvailable:
-            print('No Broker, reconnecting..')
-            sleep(15)
-            continue
-
-
-def get_consumer(topic):
-    while True:
-        try:
-            consumer = KafkaConsumer(
-                topic,
-                bootstrap_servers=['kafka:9092'],
-                auto_offset_reset='earliest',
-                group_id='scrapers',
-                value_deserializer=lambda x: x.decode('utf-8')
-            )
-            return consumer
         except NoBrokersAvailable:
             print('No Broker, reconnecting..')
             sleep(15)
