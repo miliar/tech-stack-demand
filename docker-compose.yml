@@ -14,9 +14,23 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "job_urls:2:1,job_descriptions:2:1,job_keywords:2:1"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG_DIRS: /logs
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      #- ./kafka-logs:/kafka
+      #- ./kafka_logs:/logs
+
+  kafka_ui:
+    image: obsidiandynamics/kafdrop
+    ports:
+      - "9000:9000"
+    environment:
+      ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKERCONNECT: "kafka:9092"
+      JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication"
+    depends_on:
+      - kafka
+      - zookeeper
   
   job_description_scraper:
     build: ./job_scraper
