@@ -1,11 +1,14 @@
-version: '2.2'
+version: '3'
 
 services:
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
-  
+    deploy:
+      restart_policy:
+        condition: any
+        
   kafka:
     image: wurstmeister/kafka
     ports:
@@ -19,7 +22,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       #- ./kafka_logs:/logs
-
+    deploy:
+      restart_policy:
+        condition: any
+        
   kafka_ui:
     image: obsidiandynamics/kafdrop
     ports:
@@ -31,18 +37,31 @@ services:
     depends_on:
       - kafka
       - zookeeper
+    deploy:
+      restart_policy:
+        condition: any
   
   job_description_scraper:
-    build: ./job_scraper
+    build: ./job_description_scraper
     depends_on:
       - kafka
-    scale: 2
+    deploy:
+      replicas: 2
+      restart_policy:
+        delay: 60s
+        max_attempts: 5
+        window: 120s
      
   job_url_scraper:
-    build: ./job_scraper
+    build: ./job_url_scraper
     depends_on:
       - kafka
-    command: python -u job_url_scraper.py
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 120s
 
   redis:
     image: 'bitnami/redis:5.0'
@@ -52,6 +71,9 @@ services:
       - '6379:6379'
     volumes:
       - ./keywords_api/redis_data:/bitnami/redis/data
+    deploy:
+      restart_policy:
+        condition: any
   
   keywords_api:
     build: ./keywords_api
@@ -59,13 +81,21 @@ services:
       - '4000:4000'
     depends_on:
       - redis
+    deploy:
+      restart_policy:
+        condition: any
 
   job_keywords_parser:
     build: ./job_keywords_parser
     depends_on:
       - kafka
       - keywords_api
-    scale: 2
+    deploy:
+      replicas: 2
+      restart_policy:
+        delay: 60s
+        max_attempts: 5
+        window: 120s
 
   neo4j:
     image: neo4j:latest
@@ -76,10 +106,18 @@ services:
       NEO4J_AUTH: neo4j/password
     volumes:
       - ./neo4j_data_loader/neo4j_data:/data
-
+    deploy:
+      restart_policy:
+        condition: any
+        
   neo4j_data_loader:
     build: ./neo4j_data_loader
     depends_on:
       - neo4j
       - kafka
-    scale: 2
+    deploy:
+      replicas: 2
+      restart_policy:
+        delay: 60s
+        max_attempts: 5
+        window: 120s
