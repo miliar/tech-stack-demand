@@ -1,0 +1,7 @@
+KAFKA = 'kafka:9092'
+KAFKA_CONSUMER_GROUP = 'loaders'
+KAFKA_INPUT_TOPIC = 'job_keywords'
+KAFKA_ERROR_TOPIC = 'errors'
+GRAPH_DATABASE_URI = 'bolt://neo4j'
+GRAPH_DATABASE_USER = 'neo4j'
+GRAPH_DATABASE_PASSWORD = 'password'

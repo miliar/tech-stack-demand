@@ -1,7 +1,7 @@
 from neo4j import GraphDatabase, basic_auth
 from neo4j.exceptions import ServiceUnavailable
 from time import sleep
-from helper import get_consumer
+from config import GRAPH_DATABASE_URI, GRAPH_DATABASE_USER, GRAPH_DATABASE_PASSWORD
 
 
 class Neo4jDataLoader:
@@ -12,7 +12,7 @@ class Neo4jDataLoader:
         while True:
             try:
                 driver = GraphDatabase.driver(
-                    "bolt://neo4j", auth=basic_auth("neo4j", "password"))
+                    GRAPH_DATABASE_URI, auth=basic_auth(GRAPH_DATABASE_USER, GRAPH_DATABASE_PASSWORD))
                 return driver
             except ServiceUnavailable:
                 print('Can not connect to neo4j, reconnecting..')
@@ -26,12 +26,3 @@ class Neo4jDataLoader:
                         'MERGE (c:Company {name:pair[0]}) '
                         'MERGE (t:Tag {name:pair[1]}) '
                         'MERGE (c)-[:USES]-(t);', parameters={"pairs": data})
-
-
-if __name__ == '__main__':
-    consumer = get_consumer('job_keywords')
-    loader = Neo4jDataLoader()
-
-    for keywords in consumer:
-        loader.insert_data(company=keywords.key, tags=keywords.value)
-        print(f'Insert Company: {keywords.key} --> Tags: {keywords.value}', flush=True)
