@@ -1,12 +1,13 @@
 from time import sleep
 from kafka import KafkaProducer, KafkaConsumer
 from kafka.errors import NoBrokersAvailable
+from config import KAFKA_CONSUMER_GROUP, KAFKA
 
 
 def get_producer():
     while True:
         try:
-            producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
+            producer = KafkaProducer(bootstrap_servers=[KAFKA],
                                      value_serializer=lambda x: x.encode(
                                          'utf-8'),
                                      key_serializer=lambda x: x.encode('utf-8'))
@@ -22,9 +23,9 @@ def get_consumer(topic):
         try:
             consumer = KafkaConsumer(
                 topic,
-                bootstrap_servers=['kafka:9092'],
+                bootstrap_servers=[KAFKA],
                 auto_offset_reset='earliest',
-                group_id='parsers',
+                group_id=KAFKA_CONSUMER_GROUP,
                 value_deserializer=lambda x: x.decode('utf-8'),
                 key_deserializer=lambda x: x.decode('utf-8')
             )
