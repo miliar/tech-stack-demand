@@ -13,7 +13,7 @@ class Tags(Paginator):
                   'key': 'szJ1kzWRVDtVBf2OUzdw3g(('}
         return url, params
 
-    def all(self, min_count=5000):
+    def all(self, min_count=1000):
         for item in self.items():
             if item['count'] > min_count:
                 yield (item['name'], item['name'])
