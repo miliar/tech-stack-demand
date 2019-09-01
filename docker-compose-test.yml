@@ -8,4 +8,26 @@ services:
   job_description_scraper:
     build: ./job_description_scraper
     command: 'python -m unittest discover test test*.py'
- 
+
+  redis:
+    image: 'bitnami/redis:5.0'
+    environment:
+      - REDIS_PASSWORD=password
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./keywords_api/redis_data:/bitnami/redis/data
+  
+  keywords_api:
+    build: ./keywords_api
+    ports:
+      - '4000:4000'
+    depends_on:
+      - redis
+
+  job_keywords_parser:
+    build: ./job_keywords_parser
+    depends_on:
+      - keywords_api
+    command: 'python -m unittest discover test test*.py'
+    
