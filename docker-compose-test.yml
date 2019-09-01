@@ -30,4 +30,8 @@ services:
     depends_on:
       - keywords_api
     command: 'python -m unittest discover test test*.py'
+
+  keywords_update:
+    build: ./keywords_update
+    command: 'python -m unittest discover test test*.py'
     

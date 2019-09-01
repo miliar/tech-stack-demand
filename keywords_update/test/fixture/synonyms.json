@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+            "creation_date": 1534250241,
+            "last_applied_date": 1566654062,
+            "applied_count": 71,
+            "to_tag": "python",
+            "from_tag": "py"
+        },
+        {
+            "creation_date": 1401028305,
+            "last_applied_date": 1566415375,
+            "applied_count": 46,
+            "to_tag": "python",
+            "from_tag": "python-shell"
+        }
+    ],
+    "has_more": false
+}
