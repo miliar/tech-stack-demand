@@ -58,10 +58,7 @@ services:
       - kafka
     deploy:
       restart_policy:
-        condition: on-failure
-        delay: 60s
-        max_attempts: 5
-        window: 120s
+        delay: 86400s
 
   redis:
     image: 'bitnami/redis:5.0'
