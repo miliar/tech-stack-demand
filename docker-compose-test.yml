@@ -4,4 +4,8 @@ services:
   job_url_scraper:
     build: ./job_url_scraper
     command: 'python -m unittest discover test test*.py'
+
+  job_description_scraper:
+    build: ./job_description_scraper
+    command: 'python -m unittest discover test test*.py'
  
