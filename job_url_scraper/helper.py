@@ -3,26 +3,15 @@ from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
 from retry import retry
-from time import sleep
 from kafka import KafkaProducer
-from kafka.errors import NoBrokersAvailable
 from config import KAFKA
 
 
+@retry(tries=5, delay=30)
 def get_producer():
-    while True:
-        try:
-            producer = KafkaProducer(bootstrap_servers=[KAFKA],
-                                     value_serializer=lambda x: x.encode(
-                                         'utf-8'),
-                                     key_serializer=lambda x: x.encode(
-                                         'utf-8') if x else x
-                                     )
-            return producer
-        except NoBrokersAvailable:
-            print('No Broker, reconnecting..')
-            sleep(15)
-            continue
+    return KafkaProducer(bootstrap_servers=[KAFKA],
+                         value_serializer=lambda x: x.encode('utf-8'),
+                         key_serializer=lambda x: x.encode('utf-8') if x else x)
 
 
 @retry(tries=3, delay=5)

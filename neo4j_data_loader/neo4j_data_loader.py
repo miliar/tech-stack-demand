@@ -1,6 +1,5 @@
 from neo4j import GraphDatabase, basic_auth
-from neo4j.exceptions import ServiceUnavailable
-from time import sleep
+from retry import retry
 from config import GRAPH_DATABASE_URI, GRAPH_DATABASE_USER, GRAPH_DATABASE_PASSWORD
 
 
@@ -8,16 +7,10 @@ class Neo4jDataLoader:
     def __init__(self):
         self.driver = self._get_driver()
 
+    @retry(tries=5, delay=30)
     def _get_driver(self):
-        while True:
-            try:
-                driver = GraphDatabase.driver(
-                    GRAPH_DATABASE_URI, auth=basic_auth(GRAPH_DATABASE_USER, GRAPH_DATABASE_PASSWORD))
-                return driver
-            except ServiceUnavailable:
-                print('Can not connect to neo4j, reconnecting..')
-                sleep(15)
-                continue
+        return GraphDatabase.driver(GRAPH_DATABASE_URI,
+                                    auth=basic_auth(GRAPH_DATABASE_USER, GRAPH_DATABASE_PASSWORD))
 
     def insert_data(self, company, tags):
         data = [[company, tag] for tag in tags.split()]

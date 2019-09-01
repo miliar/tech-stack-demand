@@ -3,41 +3,26 @@ from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
 from retry import retry
-from time import sleep
 from kafka import KafkaProducer, KafkaConsumer
-from kafka.errors import NoBrokersAvailable
 from config import KAFKA_CONSUMER_GROUP, KAFKA
 
 
+@retry(tries=5, delay=30)
 def get_producer():
-    while True:
-        try:
-            producer = KafkaProducer(bootstrap_servers=[KAFKA],
-                                     value_serializer=lambda x: x.encode(
-                                         'utf-8'),
-                                     key_serializer=lambda x: x.encode('utf-8'))
-            return producer
-        except NoBrokersAvailable:
-            print('No Broker, reconnecting..')
-            sleep(15)
-            continue
+    return KafkaProducer(bootstrap_servers=[KAFKA],
+                         value_serializer=lambda x: x.encode('utf-8'),
+                         key_serializer=lambda x: x.encode('utf-8'))
 
 
+@retry(tries=5, delay=30)
 def get_consumer(topic):
-    while True:
-        try:
-            consumer = KafkaConsumer(
-                topic,
-                bootstrap_servers=[KAFKA],
-                auto_offset_reset='earliest',
-                group_id=KAFKA_CONSUMER_GROUP,
-                value_deserializer=lambda x: x.decode('utf-8')
-            )
-            return consumer
-        except NoBrokersAvailable:
-            print('No Broker, reconnecting..')
-            sleep(15)
-            continue
+    return KafkaConsumer(
+        topic,
+        bootstrap_servers=[KAFKA],
+        auto_offset_reset='earliest',
+        group_id=KAFKA_CONSUMER_GROUP,
+        value_deserializer=lambda x: x.decode('utf-8')
+    )
 
 
 @retry(tries=3, delay=5)
