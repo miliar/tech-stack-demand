@@ -1,13 +1,10 @@
-version: '3'
+version: '2.2'
 
 services:
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
-    deploy:
-      restart_policy:
-        condition: any
         
   kafka:
     image: wurstmeister/kafka
@@ -22,9 +19,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       #- ./kafka_logs:/logs
-    deploy:
-      restart_policy:
-        condition: any
         
   kafka_ui:
     image: obsidiandynamics/kafdrop
@@ -37,28 +31,17 @@ services:
     depends_on:
       - kafka
       - zookeeper
-    deploy:
-      restart_policy:
-        condition: any
-  
+    
   job_description_scraper:
     build: ./job_description_scraper
     depends_on:
       - kafka
-    deploy:
-      replicas: 2
-      restart_policy:
-        delay: 60s
-        max_attempts: 5
-        window: 120s
+    scale: 2
      
   job_url_scraper:
     build: ./job_url_scraper
     depends_on:
       - kafka
-    deploy:
-      restart_policy:
-        delay: 86400s
 
   redis:
     image: 'bitnami/redis:5.0'
@@ -68,9 +51,6 @@ services:
       - '6379:6379'
     volumes:
       - ./keywords_api/redis_data:/bitnami/redis/data
-    deploy:
-      restart_policy:
-        condition: any
   
   keywords_api:
     build: ./keywords_api
@@ -78,21 +58,13 @@ services:
       - '4000:4000'
     depends_on:
       - redis
-    deploy:
-      restart_policy:
-        condition: any
 
   job_keywords_parser:
     build: ./job_keywords_parser
     depends_on:
       - kafka
       - keywords_api
-    deploy:
-      replicas: 2
-      restart_policy:
-        delay: 60s
-        max_attempts: 5
-        window: 120s
+    scale: 2
 
   neo4j:
     image: neo4j:latest
@@ -103,18 +75,10 @@ services:
       NEO4J_AUTH: neo4j/password
     volumes:
       - ./neo4j_data_loader/neo4j_data:/data
-    deploy:
-      restart_policy:
-        condition: any
         
   neo4j_data_loader:
     build: ./neo4j_data_loader
     depends_on:
       - neo4j
       - kafka
-    deploy:
-      replicas: 2
-      restart_policy:
-        delay: 60s
-        max_attempts: 5
-        window: 120s
+    scale: 2 
