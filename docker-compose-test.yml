@@ -1,0 +1,7 @@
+version: '3'
+
+services:   
+  job_url_scraper:
+    build: ./job_url_scraper
+    command: 'python -m unittest discover test test*.py'
+ 
