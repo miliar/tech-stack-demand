@@ -20,7 +20,7 @@ class JobKeywordsParser:
 
     def _exclude_false_positive(self, keywords):
         false_positive = ['for-loop', 'testing', 'web', 'service', 'process',
-                          'this', 'build', 'performance', 'frameworks', 'join',
+                          'this', 'build', 'performance', 'frameworks',
                           'if-statement', 'makefile', 'architecture', 'task', 'time',
                           'get', 'stack', 'shared-libraries', 'focus', 'field',
                           'dynamic', 'position', 'optimization', 'key', 'while-loop',
@@ -39,5 +39,26 @@ class JobKeywordsParser:
                           'click', 'certificate', 'request', 'map', 'button', 'migration',
                           'file', 'case', 'match', 'chef', 'format', 'upload',
                           'character', 'post', 'expression', 'static', 'select',
-                          'count', 'plugins', 'repository', 'copy']
+                          'count', 'plugins', 'repository', 'copy', 'new-operator', 'product',
+                          'at-command', 'environment', 'system', 'project', 'jobs', 'roles',
+                          'communication', 'using', 'apply', 'member', 'free', 'standards',
+                          'where-clause', 'core', 'profile', 'send', 'shapes',
+                          'next', 'global', 'implementation', 'share', 'external', 'contact',
+                          'production', 'unique', 'area', 'between', 'design-patterns',
+                          'live', 'public', 'orientation', 'each', 'space', 'documentation',
+                          'equals', 'access', 'document', 'enterprise', 'expect', 'status',
+                          'native', 'base', 'record', 'playback', 'relationship', 'identity',
+                          'cycle', 'execution', 'clear', 'state', 'account', 'specifications',
+                          'resources', 'back', 'lifecycle', 'connect', 'addition', 'point',
+                          'local', 'main', 'put', 'responsive', 'action', 'workflow', 'libraries',
+                          'long-integer', 'target', 'execute', 'require', 'translate', 'handle',
+                          'settings', 'launch', 'release', 'comparable', 'difference', 'protected',
+                          'transparent', 'expand', 'options', 'push', 'hierarchy', 'transform',
+                          'private', 'move', 'line', 'transparency', 'extends', 'metrics',
+                          'refactoring', 'module', 'show', 'protocols', 'validation', 'driver',
+                          'virtual', 'add', 'center', 'blogs', 'combinations', 'shared', 'progress',
+                          'definition', 'call', 'message', 'scheme', 'break', 'selection', 'updates',
+                          'procedure', 'constants', 'submit', 'history', 'option', 'reduce', 'payment',
+                          'schedule', 'visibility', 'collections', 'save', 'layer',
+                          'limit', 'parent', 'self', 'display', 'join', 'super', 'optional']
         return ' '.join([k for k in keywords.split() if k not in false_positive])
