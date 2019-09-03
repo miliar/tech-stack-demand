@@ -19,7 +19,6 @@ def get_consumer(topic):
     return KafkaConsumer(
         topic,
         bootstrap_servers=[KAFKA],
-        auto_offset_reset='earliest',
         group_id=KAFKA_CONSUMER_GROUP,
         value_deserializer=lambda x: x.decode('utf-8')
     )
@@ -29,7 +28,7 @@ def get_consumer(topic):
 def get_html(url):
     with closing(get(url, stream=True)) as response:
         if _is_good_response(response):
-            return BeautifulSoup(response.content, 'html.parser')
+            return BeautifulSoup(response.content, 'lxml')
     raise RequestException(f'Error getting {url}')
 
 

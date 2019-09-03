@@ -2,3 +2,4 @@ requests
 retry
 bs4
 kafka-python
+lxml
