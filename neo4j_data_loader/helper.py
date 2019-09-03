@@ -15,7 +15,6 @@ def get_consumer(topic):
     return KafkaConsumer(
         topic,
         bootstrap_servers=[KAFKA],
-        auto_offset_reset='earliest',
         group_id=KAFKA_CONSUMER_GROUP,
         value_deserializer=lambda x: x.decode('utf-8'),
         key_deserializer=lambda x: x.decode('utf-8')
