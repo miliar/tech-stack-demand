@@ -2,4 +2,4 @@ requests
 retry
 bs4
 kafka-python
-lxml
+html5lib

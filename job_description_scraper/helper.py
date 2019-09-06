@@ -11,7 +11,8 @@ from config import KAFKA_CONSUMER_GROUP, KAFKA
 def get_producer():
     return KafkaProducer(bootstrap_servers=[KAFKA],
                          value_serializer=lambda x: x.encode('utf-8'),
-                         key_serializer=lambda x: x.encode('utf-8'))
+                         key_serializer=lambda x: x.encode('utf-8')
+                         )
 
 
 @retry(tries=5, delay=30)
@@ -28,7 +29,7 @@ def get_consumer(topic):
 def get_html(url):
     with closing(get(url, stream=True)) as response:
         if _is_good_response(response):
-            return BeautifulSoup(response.content, 'lxml')
+            return BeautifulSoup(response.content, 'html5lib')
     raise RequestException(f'Error getting {url}')
 
 

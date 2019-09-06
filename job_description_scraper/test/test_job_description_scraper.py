@@ -7,8 +7,7 @@ from job_description_scraper import JobDescriptionScraper
 class TestJobDescriptionScraper(unittest.TestCase):
     def setUp(self):
         with open("test/fixture/indeed.html", "rb") as description_page:
-            self.description_page = BeautifulSoup(
-                description_page, 'html.parser')
+            self.description_page = BeautifulSoup(description_page, 'html5lib')
         self.expected_job_description = 'Test description'
         self.expected_job_company = 'Test company'
 
