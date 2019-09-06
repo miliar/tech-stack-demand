@@ -11,7 +11,8 @@ from config import KAFKA
 def get_producer():
     return KafkaProducer(bootstrap_servers=[KAFKA],
                          value_serializer=lambda x: x.encode('utf-8'),
-                         key_serializer=lambda x: x.encode('utf-8') if x else x)
+                         key_serializer=lambda x: x.encode('utf-8') if x else x
+                         )
 
 
 @retry(tries=3, delay=5)

@@ -6,7 +6,8 @@ app = Flask(__name__)
 database = redis.Redis(
     host='redis',
     port=6379,
-    password='password')
+    password='password'
+)
 
 
 @app.route('/keywords/<words>')

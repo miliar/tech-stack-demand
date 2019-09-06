@@ -14,7 +14,8 @@ class Synonyms(Paginator):
                   'order': 'desc',
                   'sort': 'applied',
                   'site': 'stackoverflow',
-                  'key': 'szJ1kzWRVDtVBf2OUzdw3g(('}
+                  'key': 'szJ1kzWRVDtVBf2OUzdw3g(('
+                  }
         return url, params
 
     def all(self):

@@ -15,7 +15,11 @@ if __name__ == '__main__':
     for batch in batches():
         json = {key: value for key, value in batch}
         response = requests.put('http://keywords_api:4000/keywords',
-                                json=json)
+                                json=json
+                                )
         print(response.status_code, list(zip(json.keys(),
                                              json.values(),
-                                             response.json())))
+                                             response.json()
+                                             )
+                                         )
+              )

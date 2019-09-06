@@ -7,7 +7,8 @@ from config import KAFKA, KAFKA_CONSUMER_GROUP
 def get_producer():
     return KafkaProducer(bootstrap_servers=[KAFKA],
                          value_serializer=lambda x: x.encode('utf-8'),
-                         key_serializer=lambda x: x.encode('utf-8'))
+                         key_serializer=lambda x: x.encode('utf-8')
+                         )
 
 
 @retry(tries=5, delay=30)
