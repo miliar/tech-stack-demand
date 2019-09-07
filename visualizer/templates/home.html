@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <title>Company tags</title>
     <link rel="stylesheet" href="https://unpkg.com/popoto/dist/popoto.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/materialize-css/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/auto-complete.css')}}">
     <style>
         #popoto-graph:fullscreen {
             width: 100%;
@@ -24,31 +26,39 @@
         }
     </style>
 </head>
+
 <body class="ppt-body">
 
+<div class="navbar">
+    <nav style="background-color: #444951;">
+        <div class="nav-wrapper">
+            <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863;"
+                  onsubmit="event.preventDefault(); return false;">
+                <div class="input-field">
+                    <input id="search" type="search" required>
+                    <label class="label-icon" for="search"><i
+                            class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i></label>
+                </div>
+            </form>
+        </div>
+    </nav>
+</div>
+
 <section class="ppt-section-main">
-    <div class="ppt-section-header">
-        <span class="ppt-header-span">Company</span> tags
+
+    <div style="float: right; margin:33px">
+       <span id="result-total-count" class="ppt-count"></span> Companys found
+    </div>
+
+    <div id="popoto-query" class="ppt-container-query">
+        <!-- Query viewer will be generated here -->   
     </div>
 
     <div class="ppt-container-graph">
         <div id="popoto-graph" class="ppt-div-graph">
             <!-- Graph will be generated here-->
         </div>
-    </div>
-
-    <div id="popoto-query" class="ppt-container-query">
-        <!-- Query viewer will be generated here -->
-    </div>
-
-    <div class="ppt-section-header">
-        <!-- The total results count is updated with a listener defined below -->
-        RESULTS <span id="result-total-count" class="ppt-count"></span>
-    </div>
-
-    <div id="popoto-results" class="ppt-container-results">
-        <!-- Results will be generated here -->
-    </div>
+    </div> 
 
 </section>
 
@@ -59,52 +69,51 @@
 <script src="https://unpkg.com/d3" charset="utf-8"></script>
 <script src="https://unpkg.com/popoto" charset="utf-8"></script>
 
+<script src="https://unpkg.com/materialize-css/dist/js/materialize.min.js"></script>
+<script src="{{url_for('static', filename='js/auto-complete.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/tag-auto-complete.js')}}"></script>
 <script>
     popoto.rest.CYPHER_URL = "http://localhost:7474/db/data/transaction/commit";
     popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:password");
-
-    // Activate the option to fit the text inside the nodes
     popoto.graph.USE_FIT_TEXT = true;
-    // Hide some options
-    popoto.tools.TOGGLE_FIT_TEXT = false;
     popoto.tools.TOGGLE_TAXONOMY = false;
-    popoto.tools.TOGGLE_VIEW_RELATION = false;
 
     popoto.provider.node.Provider = {
         "Company": {
             "returnAttributes": ["name"],
             "constraintAttribute": "name",
-            "autoExpandRelations": true, // if set to true Person nodes will be automatically expanded in graph
-            "displayResults": function (pResultElmt) {
-                // Here D3.js mechanisms is used to generate HTML code.
-                // By default Popoto.js generates a <p> element for each result.
-                // pResultElmt parameter is the <p> element selected with D3.js
-                // So for "Person" result nodes two elements are generated:
-                // An <h3> element containing the person name
-                pResultElmt.append("h3")
-                    .text(function (result) {
-                        return result.attributes.name;
-                    });
-                }
+            "autoExpandRelations": true,    
+            "getDisplayType": function (node) {
+                return popoto.provider.node.DisplayTypes.IMAGE;
+            },
+            "getImagePath": function (node) {
+                return "{{url_for('static', filename='images/company.png')}}";
+            }
 
         },
         "Tag": {
             "returnAttributes": ["name"],
             "constraintAttribute": "name",
-            "autoExpandRelations": true
+            "autoExpandRelations": true,
+            "getDisplayType": function (node) {
+                return popoto.provider.node.DisplayTypes.IMAGE;
+            },
+            "getImagePath": function (node) {
+                return "{{url_for('static', filename='images/tag.png')}}";
+            }
+
         }
+    }; 
+
+    popoto.provider.node.DEFAULT_PROVIDER.getColor = function (node) {
+            return "#ffffff00";
     };
-    /**
-     * Here a listener is used to retrieve the total results count and update the page accordingly.
-     * This listener will be called on every graph modification.
-     */
+    popoto.provider.link.DEFAULT_PROVIDER.getColor = function (node) {
+            return "#0e35c7";
+    };
     popoto.result.onTotalResultCount(function (count) {
-        document.getElementById("result-total-count").innerHTML = "(" + count + ")";
+        document.getElementById("result-total-count").innerHTML = count;
     });
-    /**
-     * Start popoto.js generation.
-     * The function requires the label to use as root element in the graph.
-     */
     popoto.start("Company");
 </script>
 </body>
