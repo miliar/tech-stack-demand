@@ -29,6 +29,38 @@
 
 <body class="ppt-body">
 
+<div id="scrape_modal" class="modal">
+<form id="form" action="{{ url_for('home') }}" method = "POST">
+
+    <div class="modal-content">
+        
+             <div class="row">
+                <div class="input-field col s6">
+                  <input id="query" name="query" type="text" required="true">
+                  <label class="active" for="query">Search for</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="city" name="city" type="text">
+                  <label class="active" for="city">in city of Germany</label>
+                </div>
+              </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn" type="submit">Run
+        </button>
+        <button class="btn orange darken-1" type="reset">Reset
+        </button>
+        <button class="modal-close btn deep-orange darken-2" type="button">Cancel
+        </button>
+    </div>
+</form>
+</div>
+
 <div class="navbar">
     <nav style="background-color: #444951;">
         <div class="nav-wrapper">
@@ -117,7 +149,10 @@
         document.getElementById("result-total-count").innerHTML = count;
     });
     popoto.graph.onSave(function (graph) {
-        prompt('Hi','bla');
+        $(document).ready(function(){
+            $('.modal').modal();
+            $('#scrape_modal').modal('open');
+        });
     });
     popoto.start("Company");
 </script>

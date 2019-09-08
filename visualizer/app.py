@@ -1,12 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 
 app = Flask(__name__)
 
 
-@app.route('/')
-@app.route('/home')
+@app.route('/', methods=['POST', 'GET'])
 def home():
+    if request.method == 'POST':
+        return request.form['query'] + ' in ' + request.form['city']
     return render_template('home.html')
 
 
