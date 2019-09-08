@@ -76,6 +76,8 @@
     popoto.rest.CYPHER_URL = "http://localhost:7474/db/data/transaction/commit";
     popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:password");
     popoto.graph.USE_FIT_TEXT = true;
+    popoto.tools.TOGGLE_FIT_TEXT = false;
+    popoto.tools.SAVE_GRAPH = true;
     popoto.tools.TOGGLE_TAXONOMY = false;
 
     popoto.provider.node.Provider = {
@@ -113,6 +115,9 @@
     };
     popoto.result.onTotalResultCount(function (count) {
         document.getElementById("result-total-count").innerHTML = count;
+    });
+    popoto.graph.onSave(function (graph) {
+        prompt('Hi','bla');
     });
     popoto.start("Company");
 </script>
