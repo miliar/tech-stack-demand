@@ -31,9 +31,9 @@
     {% if messages %}
         {% for message in messages %}
             <center>
-                <p style="color: Blue; font-size: 25px;">
+                <h5>
                     {{ message }}
-                </p>
+                </h5>
             </center>
         {% endfor %}
     {% endif %}
@@ -45,20 +45,23 @@
 <form id="form" action="{{ url_for('home') }}" method = "POST">
 
     <div class="modal-content">
+        <center>
+            <h5 style="color: Black;">Collect new data from current job market</h5>
+        </center>
         
-             <div class="row">
-                <div class="input-field col s6">
-                  <input id="query" name="query" type="text" required="true">
-                  <label class="active" for="query">Search for</label>
-                </div>
-              </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="query" name="query" type="text" required="true">
+                <label class="active" for="query">job title, keywords, or company</label>
+            </div>
+        </div>
 
-              <div class="row">
-                <div class="input-field col s6">
-                  <input id="city" name="city" type="text">
-                  <label class="active" for="city">in city of Germany</label>
-                </div>
-              </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="city" name="city" type="text">
+                <label class="active" for="city">city of Germany</label>
+            </div>
+        </div>
 
     </div>
 
@@ -167,6 +170,18 @@
         });
     });
     popoto.start("Company");
+
+    $(document).ready(function(){
+        [
+            ['#popoto-toggle-relation', 'Toogle relation'],
+            ['#popoto-reset-menu', 'Reset'],
+            ['#popoto-center-menu', 'Center graph'],
+            ['#popoto-fullscreen-menu', 'Fullscreen'],
+            ['#popoto-save-menu', 'Collect new data']
+        ].forEach(function(tuple){
+           $(tuple[0]).attr('title', tuple[1]);
+        });
+    });
 </script>
 </body>
 </html>
