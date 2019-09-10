@@ -27,6 +27,18 @@
     </style>
 </head>
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <center>
+                <p style="color: Blue; font-size: 25px;">
+                    {{ message }}
+                </p>
+            </center>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <body class="ppt-body">
 
 <div id="scrape_modal" class="modal">
