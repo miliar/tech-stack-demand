@@ -1,11 +1,13 @@
 import re
 from helper import get_html
 from time import sleep
+from urllib.parse import quote_plus
 
 
 class JobUrlScraper:
-    def __init__(self, query='software+developer', throttle_seconds=5):
-        self.query = query
+    def __init__(self, query, city, throttle_seconds=5):
+        self.query = quote_plus(query)
+        self.city = quote_plus(city)
         self.search_count = self._get_search_count()
         self.throttle_seconds = throttle_seconds
 
@@ -15,7 +17,7 @@ class JobUrlScraper:
         return int(re.findall(r'(\d+.?\d*) Jobs', search_count_text)[0].replace('.', ''))
 
     def _get_search_page_url(self, start=0):
-        return f'https://de.indeed.com/Jobs?q={self.query}&l=Berlin&sort=date&limit=50&radius=25&filter=0&start={start}'
+        return f'https://de.indeed.com/Jobs?q={self.query}&l={self.city}&sort=date&limit=50&radius=25&filter=0&start={start}'
 
     def get_all_job_urls(self):
         for url in self._get_all_search_page_urls():

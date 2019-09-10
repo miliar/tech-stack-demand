@@ -14,12 +14,14 @@ class TestJobUrlScraper(unittest.TestCase):
 
     def test_get_all_job_urls(self):
         def get_html(url):
-            if url == 'https://de.indeed.com/Jobs?q=software+developer&l=Berlin&sort=date&limit=50&radius=25&filter=0&start=0':
+            if url == 'https://de.indeed.com/Jobs?q=software+developer+c%23&l=Berlin&sort=date&limit=50&radius=25&filter=0&start=0':
                 return self.main_page
             raise RequestException(f'Error getting {url}')
 
         with patch('job_url_scraper.get_html') as mocked_get:
             mocked_get.side_effect = get_html
             job_urls = [url for url in JobUrlScraper(
+                query='software developer c#',
+                city='Berlin',
                 throttle_seconds=0).get_all_job_urls()]
             self.assertEqual(job_urls, self.expected_job_urls)

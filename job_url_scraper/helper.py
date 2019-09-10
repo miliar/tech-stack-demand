@@ -3,7 +3,8 @@ from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
 from retry import retry
-from kafka import KafkaProducer
+import json
+from kafka import KafkaProducer, KafkaConsumer
 from config import KAFKA
 
 
@@ -13,6 +14,15 @@ def get_producer():
                          value_serializer=lambda x: x.encode('utf-8'),
                          key_serializer=lambda x: x.encode('utf-8') if x else x
                          )
+
+
+@retry(tries=5, delay=30)
+def get_consumer(topic):
+    return KafkaConsumer(
+        topic,
+        bootstrap_servers=[KAFKA],
+        value_deserializer=lambda x: json.loads(x.decode('ascii'))
+    )
 
 
 @retry(tries=3, delay=5)
