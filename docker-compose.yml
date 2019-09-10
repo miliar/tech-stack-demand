@@ -13,7 +13,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "job_urls:2:1,job_descriptions:2:1,job_keywords:2:1,errors:1:1"
+      KAFKA_CREATE_TOPICS: "job_urls:2:1,job_descriptions:2:1,job_keywords:2:1,job_search:1:1,errors:1:1"
       KAFKA_BROKER_ID: 1
       KAFKA_LOG_DIRS: /logs
     volumes:
@@ -81,4 +81,12 @@ services:
     depends_on:
       - neo4j
       - kafka
-    scale: 2 
+    scale: 2
+
+  visualizer:
+    build: ./visualizer
+    ports:
+      - '5000:5000'
+    depends_on:
+      - neo4j
+      - kafka
