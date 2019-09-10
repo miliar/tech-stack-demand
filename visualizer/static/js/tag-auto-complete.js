@@ -3,8 +3,7 @@ var main = new autoComplete({
     minChars: 0,
 
     source: function (term, suggest) {
-        var query = "match (c:Company)-[r]->(t:Tag) WHERE (toLower(t.name) contains $term) return DISTINCT t.name AS name, type(r) as rel, count(t) as occurence order by occurence desc LIMIT 20";
-
+        var query = "match (x) WHERE toLower(x.name) contains $term return DISTINCT x.name AS name, labels(x) as label order by name LIMIT 20";
         var statements = [
             {
                 "statement": query,
@@ -35,11 +34,16 @@ var main = new autoComplete({
         search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
         var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
         var name = item[0];
-        var rel = item[1];
-        var label = "Tag";
+        var label = item[1];
+        var imagePath = popoto.provider.node.getImagePath({
+            label: label,
+            type: popoto.graph.node.NodeTypes.VALUE,
+            attributes: {name: name}
+        });
+
         
 
-        return '<div class="autocomplete-suggestion" data-id="' + name + '" data-rel="' + rel + '" data-label="' + label + '" data-search="' + search + '"> ' + rel + " "+ name.replace(re, "<b>$1</b>") + '</div>';
+        return '<div class="autocomplete-suggestion" data-id="' + name + '" data-rel="USES" data-label="' + label + '" data-search="' + search + '"><img width="20px" height="20px" src="' + imagePath + '"> ' + label + ": "+ name.replace(re, "<b>$1</b>") + '</div>';
     },
     onSelect: function (e, term, item) {
         var id = item.getAttribute('data-id');
@@ -49,11 +53,31 @@ var main = new autoComplete({
         document.getElementById('search').value = "";
         $("#search").blur();
 
-        popoto.graph.node.addRelatedValues(popoto.graph.getRootNode(), [{
-            id: id,
-            rel: rel,
-            label: label
-        }]);
-
+        if (label === 'Tag'){
+            popoto.graph.node.addRelatedValues(popoto.graph.getRootNode(), [{
+                id: id,
+                rel: rel,
+                label: label
+            }]);
+        }
+        else {
+            popoto.graph.mainLabel = {
+                label: label,
+                value: {
+                    name: id
+                },
+                rel: [
+                {
+                    label: "USES",
+                    target: {
+                        label: "Tag"
+                    }
+                }
+                ]
+            };
+            popoto.tools.reset();
+            popoto.graph.mainLabel = "Company";
+        }
+        // $(".autocomplete-suggestions").hide(); WTF???
     }
 });
