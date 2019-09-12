@@ -1,6 +1,6 @@
 var main = new autoComplete({
     selector: '#search',
-    minChars: 0,
+    minChars: 1,
 
     source: function (term, suggest) {
         var query = "match (x) WHERE toLower(x.name) contains $term return DISTINCT x.name AS name, labels(x) as label order by name LIMIT 20";
@@ -49,9 +49,7 @@ var main = new autoComplete({
         var id = item.getAttribute('data-id');
         var rel = item.getAttribute('data-rel');
         var label = item.getAttribute('data-label');
-
-        document.getElementById('search').value = "";
-        $("#search").blur();
+        var searchInput = document.getElementById('search');
 
         if (label === 'Tag'){
             popoto.graph.node.addRelatedValues(popoto.graph.getRootNode(), [{
@@ -78,6 +76,8 @@ var main = new autoComplete({
             popoto.tools.reset();
             popoto.graph.mainLabel = "Company";
         }
-        // $(".autocomplete-suggestions").hide(); WTF???
+
+        searchInput.value = '';
+        searchInput.blur();
     }
 });
