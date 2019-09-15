@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-    <title>Company tags</title>
+    <title>Tech stack demand</title>
     <link rel="stylesheet" href="https://unpkg.com/popoto/dist/popoto.min.css">
     <link rel="stylesheet" href="https://unpkg.com/materialize-css/dist/css/materialize.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='css/auto-complete.css')}}">
@@ -46,20 +46,20 @@
 
     <div class="modal-content">
         <center>
-            <h5 style="color: Black;">Collect new data from current job market</h5>
+            <h5 style="color: Black;">Collect new data from current german job market</h5>
         </center>
         
         <div class="row">
             <div class="input-field col s6">
                 <input id="query" name="query" type="text" required="true">
-                <label class="active" for="query">job title, keywords, or company</label>
+                <label class="active" for="query">Search for job title, keywords, or company</label>
             </div>
         </div>
 
         <div class="row">
             <div class="input-field col s6">
                 <input id="city" name="city" type="text">
-                <label class="active" for="city">city of Germany</label>
+                <label class="active" for="city">City (optional)</label>
             </div>
         </div>
 
@@ -94,7 +94,7 @@
 <section class="ppt-section-main">
 
     <div style="float: right; margin:33px">
-       <span id="result-total-count" class="ppt-count"></span> Companys found
+       <span id="result-total-count" class="ppt-count"></span> Companies found
     </div>
 
     <div id="popoto-query" class="ppt-container-query">
@@ -126,6 +126,7 @@
     popoto.tools.TOGGLE_FIT_TEXT = false;
     popoto.tools.SAVE_GRAPH = true;
     popoto.tools.TOGGLE_TAXONOMY = false;
+    popoto.graph.link.SHOW_MARKER = true;
 
     popoto.provider.node.Provider = {
         "Company": {
