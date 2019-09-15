@@ -82,7 +82,7 @@
             <form style="height:100%; margin-left: 8%; margin-right: 8%; background-color: #525863;"
                   onsubmit="event.preventDefault(); return false;">
                 <div class="input-field">
-                    <input id="search" type="search" placeholder="Search for Company or Tag" required>
+                    <input id="search" type="search" placeholder="Search for Company or Tech" required>
                     <label class="label-icon" for="search"><i
                             class="ppt-icon ppt-icon-search-plus" style="color:#8bb71a;"></i></label>
                 </div>
@@ -118,7 +118,7 @@
 
 <script src="https://unpkg.com/materialize-css/dist/js/materialize.min.js"></script>
 <script src="{{url_for('static', filename='js/auto-complete.min.js')}}"></script>
-<script src="{{url_for('static', filename='js/tag-auto-complete.js')}}"></script>
+<script src="{{url_for('static', filename='js/searchbar-auto-complete.js')}}"></script>
 <script>
     popoto.rest.CYPHER_URL = "http://localhost:7474/db/data/transaction/commit";
     popoto.rest.AUTHORIZATION = "Basic " + btoa("neo4j:password");
@@ -141,7 +141,7 @@
             }
 
         },
-        "Tag": {
+        "Tech": {
             "returnAttributes": ["name"],
             "constraintAttribute": "name",
             "autoExpandRelations": true,
@@ -149,7 +149,7 @@
                 return popoto.provider.node.DisplayTypes.IMAGE;
             },
             "getImagePath": function (node) {
-                return "{{url_for('static', filename='images/tag.png')}}";
+                return "{{url_for('static', filename='images/tech.png')}}";
             }
 
         }

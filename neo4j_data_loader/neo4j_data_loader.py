@@ -23,7 +23,7 @@ class Neo4jDataLoader:
         with self.driver.session() as session:
             session.run('UNWIND {pairs} as pair '
                         'MERGE (c:Company {name:pair[0]}) '
-                        'MERGE (t:Tag {name:pair[1]}) '
+                        'MERGE (t:Tech {name:pair[1]}) '
                         'MERGE (c)-[:USES]-(t);',
                         parameters={"pairs": data}
                         )

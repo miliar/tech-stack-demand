@@ -51,7 +51,7 @@ var main = new autoComplete({
         var label = item.getAttribute('data-label');
         var searchInput = document.getElementById('search');
 
-        if (label === 'Tag'){
+        if (label === 'Tech'){
             popoto.graph.node.addRelatedValues(popoto.graph.getRootNode(), [{
                 id: id,
                 rel: rel,
@@ -68,7 +68,7 @@ var main = new autoComplete({
                 {
                     label: "USES",
                     target: {
-                        label: "Tag"
+                        label: "Tech"
                     }
                 }
                 ]
