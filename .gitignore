@@ -103,8 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-redis_data/
-
 neo4j_data/
 
 kafka_logs/
