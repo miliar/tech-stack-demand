@@ -1,17 +1,14 @@
-# jobsearch-keywords
+# Tech stack demand
+A tool to visualize the tech stack demand on the current job market.
 
 
-read topic:
-docker exec -it jobsearch-keywords_kafka_1 kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic <topic_name> --from-beginning
+## How to use the UI
+Check out this [basic action wiki](https://github.com/Nhogs/popoto/wiki/Basic-action).
 
-produce:
-docker exec -it jobsearch-keywords_kafka_1 kafka-console-producer.sh --broker-list kafka:9092 --topic <topic_name> --property "parse.key=true" --property "key.separator=:"
+## Technical sidenotes
+Run tests:
+`docker-compose -f docker-compose-tests.yml up`
 
-
-https://github.com/Nhogs/popoto/wiki/Basic-action
-
-run tests:
-docker-compose -f docker-compose-tests.yml up
-
-run keywords update:
-docker-compose -f docker-compose-keywords-update.yml up
+Run keywords api update:
+* delete old data saved in `keywords_api/redis_data`
+* Run: `docker-compose -f docker-compose-keywords-update.yml up`
