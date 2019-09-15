@@ -9,3 +9,9 @@ docker exec -it jobsearch-keywords_kafka_1 kafka-console-producer.sh --broker-li
 
 
 https://github.com/Nhogs/popoto/wiki/Basic-action
+
+run tests:
+docker-compose -f docker-compose-tests.yml up
+
+run keywords update:
+docker-compose -f docker-compose-keywords-update.yml up
