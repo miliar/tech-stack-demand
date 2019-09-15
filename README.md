@@ -1,5 +1,6 @@
 # Tech stack demand
 A tool to visualize the tech stack demand on the current job market.
+![Tech stack demand demo](demo_pictures/collect_new_data.gif)
 
 
 ## How to use the UI
