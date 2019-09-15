@@ -5,7 +5,7 @@ from urllib.parse import quote_plus
 
 
 class JobUrlScraper:
-    def __init__(self, query, city, throttle_seconds=5):
+    def __init__(self, query, city, throttle_seconds=1):
         self.query = quote_plus(query)
         self.city = quote_plus(city)
         self.search_count = self._get_search_count()
