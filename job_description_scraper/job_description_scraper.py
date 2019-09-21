@@ -9,4 +9,4 @@ class JobDescriptionScraper:
         return self.html.find('div', id="jobDescriptionText").get_text()
 
     def get_job_company(self):
-        return next(self.html.find('div', class_='jobsearch-CompanyInfoWithoutHeaderImage').stripped_strings)
+        return next(self.html.find('div', class_='jobsearch-JobInfoHeader-subtitle').stripped_strings)
