@@ -35,6 +35,7 @@ An example microservice pipeline to visualize the tech stack demand on the curre
 #### Manage Neo4j data:
 * Data mounted to /neo4j_data_loader/neo4j_data
 * Open Neo4j browser: http://localhost:7474/
+* Login with user: neo4j password: password
 
 
 #### Run tests:
