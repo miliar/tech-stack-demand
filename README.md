@@ -10,8 +10,10 @@ An example microservice pipeline to visualize the tech stack demand on the curre
 
 
 ## Installation
+* [Install docker/docker-compose](https://docs.docker.com/compose/install/)
+* Assure docker has enough resources (Preferences > Advanced; tested with 4 CPUs and 6 GiB RAM) 
 * Run `docker-compose up`
-* Open in your browser `http://localhost:5000/`
+* Open in your browser http://localhost:5000/
 * Collect new data (reload page to see progress; this can take up to 20 min)
 ![Tech stack demand collect demo](demo_pictures/collect_new_data.gif)
 
@@ -27,12 +29,12 @@ An example microservice pipeline to visualize the tech stack demand on the curre
 
 #### Browse kafka topics:
 * Kafka logs are not mounted
-* While collecting new data, check `http://localhost:9000/`
+* While collecting new data, check http://localhost:9000/
 
 
 #### Manage Neo4j data:
 * Data mounted to /neo4j_data_loader/neo4j_data
-* Open Neo4j browser: `http://localhost:7474/`
+* Open Neo4j browser: http://localhost:7474/
 
 
 #### Run tests:
