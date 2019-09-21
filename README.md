@@ -17,7 +17,7 @@ An example microservice pipeline to visualize the tech stack demand on the curre
 
 
 ## How to use the UI
-Check out this [basic action wiki](https://github.com/Nhogs/popoto/wiki/Basic-action).
+* Check out this [basic action wiki](https://github.com/Nhogs/popoto/wiki/Basic-action)
 
 
 ## Technical sidenotes
@@ -26,7 +26,8 @@ Check out this [basic action wiki](https://github.com/Nhogs/popoto/wiki/Basic-ac
 
 
 #### Browse kafka topics:
-Kafka logs are not mounted. While updating, check `http://localhost:9000/`
+* Kafka logs are not mounted
+* While collecting new data, check `http://localhost:9000/`
 
 
 #### Manage Neo4j data:
@@ -35,7 +36,7 @@ Kafka logs are not mounted. While updating, check `http://localhost:9000/`
 
 
 #### Run tests:
-`docker-compose -f docker-compose-tests.yml up`
+* `docker-compose -f docker-compose-tests.yml up`
 
 
 #### Run keywords api update:
